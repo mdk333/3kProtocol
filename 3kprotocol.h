@@ -183,7 +183,7 @@ bool runGeometricAttackKKKProtocol(struct NeuralNetwork neuralNetA, struct Neura
 
 
 /**
- * Simulates the geometric attack on the 3k protocol. After the simulation the network weights for both network can be printed to show they are
+ * Simulates the genetic attack on the 3k protocol. After the simulation the network weights for both network can be printed to show they are
  * synchronised. Use the utility function printNetworkWeights(...) in this library to print the network weights of network A and network B and attacker network.
  * 
  * @param neuralNetA - neuralNetA and neuralNetB are the normal communicating pair by which we wish to generate a common key.
