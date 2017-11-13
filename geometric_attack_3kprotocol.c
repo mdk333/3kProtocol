@@ -40,7 +40,8 @@ int main() {
      * To run the KKK Protocol normally (without any attacks), uncomment the call to function runKKKProtocol(...) below, 
      * and comment out the call to function runGeometricAttackKKKProtocol(...) which follows.  To run the attack in 'offline'
      * mode the call to runGeometricAttackKKKProtocol(...) can come after the runKKKProtocol(...), but then you ought to modify 
-     * (or create another version of) the function runGeometricAttackKKKProtocol(...) to not update the weights of the neuralNetA and neuralNetB  -- do this with caution.
+     * (or create another version of) the function runGeometricAttackKKKProtocol(...) to not update the weights of
+     * neuralNetA and neuralNetB during the attack.
      */
 
     // bool status = runKKKProtocol(neuralNetA, neuralNetB, inputs, k, n, l);
