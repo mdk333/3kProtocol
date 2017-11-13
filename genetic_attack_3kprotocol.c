@@ -42,6 +42,11 @@ int main() {
     printf("\n=====================================\n");
     printNetworkWeights(attackNeuralNetworks[0], k, n);
 
+    /*
+     * To run the KKK Protocol normally (without any attacks), uncomment the call to function runKKKProtocol(...) below, 
+     * and (optionally) comment out the call to function runGenenticAttackKKKProtocol(...) which follows.
+     */
+    
     // bool status = runKKKProtocol(neuralNetA, neuralNetB, inputs, k, n, l);
     bool status = runGeneticAttackKKKProtocol(neuralNetA, neuralNetB, attackNeuralNetworks, inputs, k, n, l, m, GENETIC_SYNCHRONISATION_THRESHOLD, GENETIC_EPOCH_LIMIT);
 
