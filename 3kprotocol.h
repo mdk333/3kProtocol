@@ -634,12 +634,14 @@ int* binaryCombinations(int k, int output) {
  */
 int countZeros(int k) {
     int c = 0;
+    int x = 0;
     while (k != 0) {
+        x++;
         if ((k & 1) == 1) {
             c++;
         }
         k = k >> 1;
     }
-    return (k - c);
+    return (x - c);
 }
 
