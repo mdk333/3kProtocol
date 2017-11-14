@@ -1,2 +1,2 @@
 # 3kProtocol
-Library for simulation of KKK secret key exchange protocol and its attacks.
+Library for simulation of neural network based KKK secret key exchange protocol and its attacks.
