@@ -196,7 +196,7 @@ bool runGeometricAttackKKKProtocol(struct NeuralNetwork neuralNetA, struct Neura
  *            difficult it is to break the protocol.
  * @param syncThreshold - if the all the involved networks produce the same weights in 'syncThreshold' successive rounds,
  *                         then we take it that the synchronisation is now stable and we can take the weights as final. For the genetic attack,
- *                         this value is typically 1. This is so since we count a synchronisation when all the networks in each population have the same weights,
+ *                         this value would typically be a small positive integer (e.g 1). This is so since we count a synchronisation when all the networks in each population have the same weights,
  *                         so the multiple populations are somewhat the same as the multiple successive synchronised rounds that we have in the geometric attack.
  * @param epochLimit  - in case the networks are taking too long to reach synchronisation stability, we set this limit on the number of rounds that 
  *                  can be executed so that we don't run the simulation for ever. This limit will depend on the resources available to your simulation 
