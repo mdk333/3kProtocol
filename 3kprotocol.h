@@ -613,14 +613,14 @@ int* binaryCombinations(int k, int output) {
     int index = 0;
     if (output == -1) {  // Look for binary combinations that produce -ve parity.
         for (int i = 0; i < (int) pow(2.0, k); i++) {
-            if (countZeros(i) % 2 == 1) { // The number of zeros in i is odd so it will have odd number of zero bits (i.e. +1s)
+            if (countZeros(i) % 2 == 1) { // The number of zeros in i is odd i.e odd number of -1s, which will give output parity of -1
                 combinations[index] = i;
                 index++;
             }
         }
     } else if (output == 1) {  // Look for binary combinations that produce +ve parity.
         for (int i = 0; i < (int) pow(2.0, k); i++) {
-            if (countZeros(i) % 2 == 0) { // The number of zeros in i is even so it will have an even number of zero bits (i.e. -1s)
+            if (countZeros(i) % 2 == 0) { // The number of zeros in i is even i.e even number of -1s, which will give output parity of +1
                 combinations[index] = i;
                 index++;
             }
