@@ -6,7 +6,7 @@
  * 
  * Author: Maduka Attamah
  * 
- * Copyright 2016 Maduka Attamah
+ * Copyright 2016-2017 Maduka Attamah
  */
 
 #include <math.h>
