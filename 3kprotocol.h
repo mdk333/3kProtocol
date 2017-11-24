@@ -28,8 +28,8 @@ typedef enum {
 
 /* Function declarations */
 bool runKKKProtocol(struct NeuralNetwork, struct NeuralNetwork, int**, int, int, int, int syncThreshold, int epochLimit);
-bool runGeometricAttackKKKProtocol(struct NeuralNetwork, struct NeuralNetwork, struct NeuralNetwork, int**, int, int, int, int syncThreshold, int epochLimit);
-bool runGeneticAttackKKKProtocol(struct NeuralNetwork, struct NeuralNetwork, struct NeuralNetwork*, int**, int, int, int, int, int syncThreshold, int epochLimit);
+bool runGeometricAttackKKKProtocol(struct NeuralNetwork, struct NeuralNetwork, struct NeuralNetwork, int**, int, int, int, int syncThreshold, int epochLimit, int* epochFinal);
+bool runGeneticAttackKKKProtocol(struct NeuralNetwork, struct NeuralNetwork, struct NeuralNetwork*, int**, int, int, int, int, int syncThreshold, int epochLimit, , int* epochFinal);
 
 struct NeuralNetwork constructNeuralNetwork(int, int, int);
 struct NeuralNetwork cloneNeuralNetwork(int, int, struct NeuralNetwork);
@@ -120,10 +120,11 @@ bool runKKKProtocol(struct NeuralNetwork neuralNetA, struct NeuralNetwork neural
  * @param epochLimit  - in case the networks are taking too long to reach synchronisation stability, we set this limit on the number of rounds that 
  *                  can be executed so that we don't run the simulation for ever. This limit will depend on the resources available to your simulation 
  *                  environment.
+ * @param epochFinal - int pointer passed from the calling context to collect the final epoch reached.
  * @return true or false indicating whether synchronisation was reached or not. Synchronisation is reached when the attack succeeds i.e the attacker succeeds in synchronising its 
  *          network weights with that of network A and network B.
  */
-bool runGeometricAttackKKKProtocol(struct NeuralNetwork neuralNetA, struct NeuralNetwork neuralNetB, struct NeuralNetwork attackerNet, int** inputs, int k, int n, int l, int syncThreshold, int epochLimit) {
+bool runGeometricAttackKKKProtocol(struct NeuralNetwork neuralNetA, struct NeuralNetwork neuralNetB, struct NeuralNetwork attackerNet, int** inputs, int k, int n, int l, int syncThreshold, int epochLimit, int* epochFinal) {
     int s = 0;
     int epoch = 0;
     
@@ -172,7 +173,10 @@ bool runGeometricAttackKKKProtocol(struct NeuralNetwork neuralNetA, struct Neura
         //synchronisation has not been reached by then.
         epoch = epoch + 1;
     }
-
+    
+    // Set the final epoch for use by the calling context.
+    *epochFinal = epoch;
+    
     //Did the above while loop stop because the synchronisation threshold was reached?
     if (s == syncThreshold) {
         return true;  // We have succesfully synchronised the network. The weights were the same for syncThreshold number of rounds!
@@ -202,10 +206,11 @@ bool runGeometricAttackKKKProtocol(struct NeuralNetwork neuralNetA, struct Neura
  * @param epochLimit  - in case the networks are taking too long to reach synchronisation stability, we set this limit on the number of rounds that 
  *                  can be executed so that we don't run the simulation for ever. This limit will depend on the resources available to your simulation 
  *                  environment.
+ * @param epochFinal - int pointer passed from the calling context to collect the final epoch reached.
  * @return true or false indicating whether synchronisation was reached or not. Synchronisation is reached when the attack succeeds i.e the attacker succeeds in synchronising its 
  *          network weights with that of network A and network B.
  */
-bool runGeneticAttackKKKProtocol(struct NeuralNetwork neuralNetA, struct NeuralNetwork neuralNetB, struct NeuralNetwork* attackerNets, int** inputs, int k, int n, int l, int m, int syncThreshold, int epochLimit) {
+bool runGeneticAttackKKKProtocol(struct NeuralNetwork neuralNetA, struct NeuralNetwork neuralNetB, struct NeuralNetwork* attackerNets, int** inputs, int k, int n, int l, int m, int syncThreshold, int epochLimit, int* epochFinal) {
     int s = 0;
     int epoch = 0;
     
@@ -217,7 +222,7 @@ bool runGeneticAttackKKKProtocol(struct NeuralNetwork neuralNetA, struct NeuralN
             struct NeuralNetwork* newAttackerNets = malloc(sizeof (struct NeuralNetwork*) * sizeof (attackerNets) * pow(2, k - 1));
             int index = 0;
             //Get all the combinations that give us the outputA (or outputB).
-            int** hlOutputs = binaryToHLOutputs(binaryCombinations(k, outputA), k);
+            int** hlOutputs = binaryToHLOutputs(k, outputA);
             struct NeuralNetwork nn;
             for (int i = 0; i < sizeof (attackerNets); i++) {
                 for (int j = 0; j < sizeof (hlOutputs); j++) {
@@ -264,6 +269,9 @@ bool runGeneticAttackKKKProtocol(struct NeuralNetwork neuralNetA, struct NeuralN
 
         epoch = epoch + 1;
     }
+    
+    // Set the final epoch for use by the calling context.
+    *epochFinal = epoch;
 
     //Did the simulation end due to reach of synchronisation threshold?
     if (s == syncThreshold) {  
