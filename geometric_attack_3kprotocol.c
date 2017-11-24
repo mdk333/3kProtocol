@@ -44,8 +44,10 @@ int main() {
      * neuralNetA and neuralNetB during the attack.
      */
 
+    int epoch = 0;
+    
     // bool status = runKKKProtocol(neuralNetA, neuralNetB, inputs, k, n, l);
-    bool status = runGeometricAttackKKKProtocol(neuralNetA, neuralNetB, neuralNetC, inputs, k, n, l, SYNCHRONISATION_THRESHOLD, EPOCH_LIMIT);
+    bool status = runGeometricAttackKKKProtocol(neuralNetA, neuralNetB, neuralNetC, inputs, k, n, l, SYNCHRONISATION_THRESHOLD, EPOCH_LIMIT, &epoch);
 
     printf("\n==============AFTER PROTOCOL RUN=======================\n");
     if (status == true) {
