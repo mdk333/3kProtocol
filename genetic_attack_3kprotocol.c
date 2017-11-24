@@ -47,8 +47,9 @@ int main() {
      * and comment out the call to function runGenenticAttackKKKProtocol(...) which follows.
      */
     
+    int epoch;
     // bool status = runKKKProtocol(neuralNetA, neuralNetB, inputs, k, n, l);
-    bool status = runGeneticAttackKKKProtocol(neuralNetA, neuralNetB, attackNeuralNetworks, inputs, k, n, l, m, GENETIC_SYNCHRONISATION_THRESHOLD, GENETIC_EPOCH_LIMIT);
+    bool status = runGeneticAttackKKKProtocol(neuralNetA, neuralNetB, attackNeuralNetworks, inputs, k, n, l, m, GENETIC_SYNCHRONISATION_THRESHOLD, GENETIC_EPOCH_LIMIT, &epoch);
 
     printf("\n==============AFTER PROTOCOL RUN=======================\n");
     if (status == true) {
