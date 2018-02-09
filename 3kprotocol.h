@@ -47,7 +47,8 @@ int getMinInputSumNeuron(struct NeuralNetwork, int**, int, int);
 int* getHiddenLayerOutputs(struct NeuralNetwork, int**, int, int);
 int getNetworkOutput(struct NeuralNetwork, int**, int, int);
 
-void freeMemoryForNetwork(struct NeuralNetwork, int, int);
+void freeMemoryForNetwork(struct NeuralNetwork, int);
+void freeMemoryForNNInputs(int**, int);
 
 int** binaryToHLOutputs(int, int);
 int* binaryCombinations(int, int);
@@ -91,7 +92,7 @@ bool runKKKProtocol(struct NeuralNetwork neuralNetA, struct NeuralNetwork neural
             s = 0;
         }
 
-        free(inputs);
+        freeMemoryForNNInputs(inputs, k);
         inputs = getRandomInputs(k, n);
 
         epoch = epoch + 1;
@@ -164,7 +165,7 @@ bool runGeometricAttackKKKProtocol(struct NeuralNetwork neuralNetA, struct Neura
             s = 0;
         }
         //Prepare for next round.
-        free(inputs);
+        freeMemoryForNNInputs(inputs, k);
         
         //Get new random inputs for the next round.
         inputs = getRandomInputs(k, n);
@@ -239,7 +240,7 @@ bool runGeneticAttackKKKProtocol(struct NeuralNetwork neuralNetA, struct NeuralN
             free(attackerNets);
             attackerNets = newAttackerNets;
             //Free memory for the temporary attacker network
-            freeMemoryForNetwork(nn, k, n);
+            freeMemoryForNetwork(nn, k);
 
         } else if ((outputA == outputB) && (sizeof (attackerNets) > m)) {
             //Delete all the networks in the population whose outputs don't agree with that of  A and B; update the weights of the rest
@@ -264,7 +265,7 @@ bool runGeneticAttackKKKProtocol(struct NeuralNetwork neuralNetA, struct NeuralN
         } else {
             s = 0;
         }
-        free(inputs);
+        freeMemoryForNNInputs(inputs, k);
         inputs = getRandomInputs(k, n);
 
         epoch = epoch + 1;
@@ -556,9 +557,8 @@ int getNetworkOutput(struct NeuralNetwork neuralNet, int** inputs, int k, int n)
  * Free up the memory allocated for a neural network.
  * @param neuralNet
  * @param k The number of perceptrons in the neural network.
- * @param n  The number of inputs to each perceptron in the network.
  */
-void freeMemoryForNetwork(struct NeuralNetwork neuralNet, int k, int n) {
+void freeMemoryForNetwork(struct NeuralNetwork neuralNet, int k) {
     // Free memory block for the weight vectors of the neural network;
     for (int i = 0; i < k; i++) {
         free(neuralNet.weights[i]);
@@ -567,6 +567,20 @@ void freeMemoryForNetwork(struct NeuralNetwork neuralNet, int k, int n) {
     
     //Free memory for the hidden layer outputs.
     free(neuralNet.hiddenLayerOutputs);
+}
+
+
+/**
+ * Free up the memory allocated for the inputs.
+ * @param int** inputs
+ * @param k The number of perceptrons in the neural network.
+ */
+void freeMemoryForNNInputs(int** inputs, int k) {
+    // Free memory block for the input vectors of the neural network;
+    for (int i = 0; i < k; i++) {
+        free(inputs[i]);
+    }
+    free(inputs);
 }
 
 
